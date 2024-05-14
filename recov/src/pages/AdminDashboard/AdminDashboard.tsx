@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   PackageIcon,
   FileTextIcon,
@@ -10,65 +11,72 @@ import { InfoCard } from "./components/InfoCard";
 import { StatisticCard } from "./components/StatisticCard.tsx";
 
 export default function AdminDashboard() {
+  const [totalLostItems, setTotalLostItems] = useState(0);
+  const [totalFoundItems, setTotalFoundItems] = useState(0);
+  const [pendingReports, setPendingReports] = useState(0);
+  const [resolvedReports, setResolvedReports] = useState(0);
+
+  // TODO: Fetch data from API and update state variables here
+
   return (
-    <div className="flex h-auto w-full flex-col lg:overflow-hidden overflow-y-auto">
-      <Header />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="grid gap-8">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-              <InfoCard
-                title="Total Lost Items"
-                icon={
-                  <PackageIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                }
-              >
-                <div className="text-3xl font-bold pb-3">1,234</div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  +5.2% from last month
-                </p>
-              </InfoCard>
-              <InfoCard
-                title="Total Found Items"
-                icon={
-                  <PackageIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                }
-              >
-                <div className="text-3xl font-bold pb-3">987</div>
-                <p className="text-sm text-gray-500  dark:text-gray-400">
-                  +3.8% from last month
-                </p>
-              </InfoCard>
-              <InfoCard
-                title="Pending Reports"
-                icon={
-                  <FileTextIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                }
-              >
-                <div className="text-3xl font-bold  pb-3">42</div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  +2 since last week
-                </p>
-              </InfoCard>
-              <InfoCard
-                title="Resolved Reports"
-                icon={
-                  <FileTextIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                }
-              >
-                <div className="text-3xl font-bold  pb-3">128</div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  +15 since last week
-                </p>
-              </InfoCard>
-            </div>
+      <div className="flex h-auto w-full flex-col lg:overflow-hidden overflow-y-auto">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-1 p-8">
             <div className="grid gap-8">
-              <StatisticCard />
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+                <InfoCard
+                    title="Total Lost Items"
+                    icon={
+                      <PackageIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                    }
+                >
+                  <div className="text-3xl font-bold pb-3">{totalLostItems}</div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    `+5.2%` from last month
+                  </p>
+                </InfoCard>
+                <InfoCard
+                    title="Total Found Items"
+                    icon={
+                      <PackageIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                    }
+                >
+                  <div className="text-3xl font-bold pb-3">{totalFoundItems}</div>
+                  <p className="text-sm text-gray-500  dark:text-gray-400">
+                    +3.8% from last month
+                  </p>
+                </InfoCard>
+                <InfoCard
+                    title="Pending Reports"
+                    icon={
+                      <FileTextIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                    }
+                >
+                  <div className="text-3xl font-bold  pb-3">{pendingReports}</div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    +2 since last week
+                  </p>
+                </InfoCard>
+                <InfoCard
+                    title="Resolved Reports"
+                    icon={
+                      <FileTextIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                    }
+                >
+                  <div className="text-3xl font-bold  pb-3">{resolvedReports}</div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    +15 since last week
+                  </p>
+                </InfoCard>
+              </div>
+              <div className="grid gap-8">
+                <StatisticCard />
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
   );
 }
