@@ -75,12 +75,10 @@ const getStats = asyncHandler(async (req, res) => {
         },
       },
     ]);
-    const categoryCounts = {}; // Initialize an empty object
-
-    // Iterate through the result array and construct the categoryCounts object
-    categoryresult.forEach((item) => {
-      categoryCounts[item._id] = item.count;
-    });
+    const categoryCounts = categoryresult.map((item) => ({
+      name: item._id,
+      count: item.count,
+    }));
     const totalItems = await item.countDocuments();
     const totalLostItems = await item.countDocuments({ itemType: "lost" });
     const totalFoundItems = await item.countDocuments({ itemType: "found" });

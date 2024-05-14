@@ -9,12 +9,17 @@ import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import { InfoCard } from "./components/InfoCard";
 import { StatisticCard } from "./components/StatisticCard.tsx";
+import { set } from "date-fns";
 
 export default function AdminDashboard() {
   const [totalLostItems, setTotalLostItems] = useState(0);
   const [totalFoundItems, setTotalFoundItems] = useState(0);
   const [pendingReports, setPendingReports] = useState(0);
   const [resolvedReports, setResolvedReports] = useState(0);
+
+  const [pieChartData, setPieChartData] = useState([]);
+  const [barChartData, setBarChartData] = useState([]);
+  const [recentTablesData, setRecentTablesData] = useState([]);
   const getStats = async () => {
     const response = await fetch("http://localhost:3000/api/v1/items/stats");
     const data = await response.json();
@@ -22,6 +27,8 @@ export default function AdminDashboard() {
     setTotalFoundItems(data.data.totalFoundItems);
     setPendingReports(data.data.totalItems);
     setResolvedReports(data.data.totalItems);
+    console.log(data.data.categoryCounts);
+    setBarChartData(data.data.categoryCounts);
   };
 
   useEffect(() => {
@@ -84,7 +91,7 @@ export default function AdminDashboard() {
               </InfoCard>
             </div>
             <div className="grid gap-8">
-              <StatisticCard stats={{}} />
+              <StatisticCard stats={{ barChartData }} />
             </div>
           </div>
         </main>
