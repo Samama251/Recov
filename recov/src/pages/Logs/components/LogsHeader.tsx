@@ -1,23 +1,10 @@
 import { Link } from "react-router-dom";
 import { PageIcon } from "../../../../public/pageIcon/pageIcon.tsx";
 import {
-  BadgeIcon,
-  CalendarIcon,
-  FilterIcon,
-  SearchIcon,
-  TagIcon,
+  SearchIcon, ArrowUpDownIcon
 } from "../../../../public/itemIcons/itemIcons.tsx";
 import { Input } from "../../../../@/components/ui/input.tsx";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../../@/components/ui/dropdown-menu.tsx";
-import { Button } from "../../../../@//components/ui/button.tsx";
-import React from "react";
+import React, {useState} from "react";
 
 // Define the item type
 interface Item {
@@ -33,26 +20,8 @@ interface LogsHeaderProps {
 }
 
 export function LogsHeader({
-  sortOption,
-  setSortOption,
-  items,
+
 }: LogsHeaderProps) {
-  // Sort items based on sortOption
-  // const sortedItems = [...items].sort((a, b) => {
-  //   switch (sortOption) {
-  //     case 'dateReported':
-  //       return (
-  //         new Date(b.dateReported).getTime() -
-  //         new Date(a.dateReported).getTime()
-  //       );
-  //     case 'itemName':
-  //       return a.itemName.localeCompare(b.itemName);
-  //     case 'status':
-  //       return a.status.localeCompare(b.status);
-  //     default:
-  //       return 0;
-  //   }
-  // });
 
   return (
     <div className="flex flex-col items-start justify-between mb-6 gap-4 sm:flex-row sm:items-center">
@@ -74,42 +43,33 @@ export function LogsHeader({
             type="text"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="px-2" size="sm" variant="outline">
-              <FilterIcon className="pl-2 w-12 h-12 mr-2" />
-              Filter
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel className="text-lg pb-1">
-              Sort by
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => setSortOption("dateReported")}
-              className="mb-2 p-1 hover:bg-gray-300 active:bg-gray-400 transition-colors"
-            >
-              <CalendarIcon className="w-8 h-8 mr-2" />
-              Date reported
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => setSortOption("itemName")}
-              className="mb-2 p-1 hover:bg-gray-300 active:bg-gray-400 transition-colors"
-            >
-              <TagIcon className="w-8 h-8  mr-2" />
-              Item name
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => setSortOption("status")}
-              className="mb-2 p-1 hover:bg-gray-300 active:bg-gray-400 transition-colors"
-            >
-              <BadgeIcon className="w-8 h-8  mr-2" />
-              Status
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SortBy/>
       </div>
     </div>
   );
 }
+
+
+
+
+export default function SortBy() {
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+    // You can use the selectedOption state variable in your sorting function
+  };
+
+  return (
+      <div className="flex items-center gap-2 text-lg bg-gray-800 text-white py-4 px-4 rounded hover:bg-gray-700">
+        <ArrowUpDownIcon className="h-6 w-6" />
+
+        <select className="bg-transparent text-white" onChange={handleChange}>
+          <option value="dateReported">Date Reported</option>
+          <option value="status">Status</option>
+          <option value="itemName">Item Name</option>
+        </select>
+      </div>
+  )
+}
+

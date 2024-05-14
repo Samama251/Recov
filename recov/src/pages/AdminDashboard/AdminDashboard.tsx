@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   PackageIcon,
   FileTextIcon,
@@ -16,10 +16,9 @@ export default function AdminDashboard() {
   const [pendingReports, setPendingReports] = useState(0);
   const [resolvedReports, setResolvedReports] = useState(0);
 
-  const [pieChartData, setPieChartData] = useState(0);
-  const [barChartData, setBarChartData] = useState(0);
-  const [recentTablesData, setRecentTablesData] = useState(0);
-
+  // const [pieChartData, setPieChartData] = useState([]);
+  const [barChartData, setBarChartData] = useState([]);
+  // const [recentTablesData, setRecentTablesData] = useState([]);
   const getStats = async () => {
     const response = await fetch("http://localhost:3000/api/v1/items/stats");
     const data = await response.json();
@@ -27,6 +26,8 @@ export default function AdminDashboard() {
     setTotalFoundItems(data.data.totalFoundItems);
     setPendingReports(data.data.totalItems);
     setResolvedReports(data.data.totalItems);
+    console.log(data.data.categoryCounts);
+    setBarChartData(data.data.categoryCounts);
   };
 
   useEffect(() => {
@@ -80,14 +81,16 @@ export default function AdminDashboard() {
                       <FileTextIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                     }
                 >
-                  <div className="text-3xl font-bold  pb-3">{resolvedReports}</div>
+                  <div className="text-3xl font-bold  pb-3">
+                    {resolvedReports}
+                  </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     +15 since last week
                   </p>
                 </InfoCard>
               </div>
               <div className="grid gap-8">
-                <StatisticCard stats={{pieChartData, barChartData, recentTablesData}} />
+                <StatisticCard stats={{ barChartData }} />
               </div>
             </div>
           </main>

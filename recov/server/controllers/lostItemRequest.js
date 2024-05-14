@@ -16,7 +16,7 @@ const lostRequest = asyncHandler(async (req, res) => {
     }
     console.log(req.body);
     const { email, itemName, category, description, image, location, date } =
-      req.body;
+        req.body;
     if (!email || !itemName || !category || !description || !location) {
       throw new ApiError(400, "Please fill all fields");
     }
@@ -78,24 +78,36 @@ const getStats = asyncHandler(async (req, res) => {
       name: item._id,
       count: item.count,
     }));
+    const totalApprovedRequests = await item.find({ adminApproval: true });
+    const totalRejectedRequests = await item.find({ adminApproval: false });
     const totalItems = await item.countDocuments();
     const totalLostItems = await item.countDocuments({ itemType: "lost" });
     const totalFoundItems = await item.countDocuments({ itemType: "found" });
     console.log("I am being called");
     res.json({
-      data: { categoryCounts, totalItems, totalLostItems, totalFoundItems },
+      data: {
+        categoryCounts,
+        totalItems,
+        totalLostItems,
+        totalFoundItems,
+      },
       ok: true,
     });
   } catch (error) {
     throw new ApiError(400, "Error in getting stats");
   }
 });
+
+// This is a function to get the userSubmissons so that it can be rendered on Myaccount details page
 const getUserItems = asyncHandler(async (req, res) => {
   try {
-    if (!req.body.token) {
+    console.log("I was Called Once Upon a Time");
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
       throw new ApiError(401, "Unauthorized request");
     }
-    const { token } = req.body;
+    const token = authHeader.split(" ")[1];
+    console.log("Token In the Backend:", token);
     const decodedToken = jwt.verify(token, "abc123");
     console.log("decoded token:", decodedToken);
     const user = await User.findById(decodedToken?._id);
@@ -108,8 +120,10 @@ const getUserItems = asyncHandler(async (req, res) => {
     for (let i = 0; i < userItems.length; i++) {
       let item = userItems[i];
       itemstoMap.push({
-        itemName: item.itemName,
+        id: item._id,
+        title: item.itemName,
         status: item.itemType,
+        date: item.date,
       });
     }
     res.json({

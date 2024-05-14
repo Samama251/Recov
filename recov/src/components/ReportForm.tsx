@@ -16,9 +16,10 @@ import "react-calendar/dist/Calendar.css";
 import { useUserContext } from "../context/userContext.tsx";
 interface ReportFormProps {
   title: string;
+  formType: 'Found' | 'Lost';
 }
 
-export const ReportForm: React.FC<ReportFormProps> = ({ title }) => {
+export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
@@ -116,6 +117,7 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title }) => {
       name,
       email,
       image,
+      formType,
     };
     report["userName"] = report["name"];
     delete report["name"];

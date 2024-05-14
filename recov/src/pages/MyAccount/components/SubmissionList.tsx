@@ -5,6 +5,7 @@ interface SubmissionItemProps {
   title: string;
   date: string;
   status: string;
+  id: string;
 }
 
 interface SubmissionsListProps {
@@ -12,11 +13,11 @@ interface SubmissionsListProps {
 }
 
 export const SubmissionsList: React.FC<SubmissionsListProps> = ({
-  submissions,
-}) => (
-  <div className="divide-y rounded-lg border">
-    {submissions.map((submission) => (
-      <SubmissionItem {...submission} key={submission.title} />
-    ))}
-  </div>
+                                                                  submissions,
+                                                                }) => (
+    <div className="divide-y rounded-lg border">
+      {submissions.map((submission) => (
+          <SubmissionItem {...submission} key={submission.id} />
+      ))}
+    </div>
 );

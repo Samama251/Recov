@@ -38,8 +38,7 @@ export default function FoundReport() {
           iconSize="h-28 w-28"
         />{' '}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          <ReportForm title="Found" />
-          <div>
+          <ReportForm title="Found Item Report" formType="Found" />          <div>
             <RecentItems items={recentItems} title="Recent found items" />
             <Tips tips={tips} />
           </div>
