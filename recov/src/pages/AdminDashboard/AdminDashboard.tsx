@@ -84,7 +84,7 @@ export default function AdminDashboard() {
               </InfoCard>
             </div>
             <div className="grid gap-8">
-              <StatisticCard stats={{ data }} />
+              <StatisticCard stats={{}} />
             </div>
           </div>
         </main>
