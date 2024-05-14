@@ -1,8 +1,12 @@
 import express from "express";
-import { registerUser, LoginUser } from "./../controllers/userControllers.js";
+import {
+  registerUser,
+  LoginUser,
+  updatePassword,
+} from "./../controllers/userControllers.js";
 import { verifyJWT } from "./../middleware/auth.js";
 const router = express.Router();
-
+router.patch("/updatePassword", updatePassword);
 router.post("/signUp", registerUser);
 router.post("/login", LoginUser);
 router.post("/auth", verifyJWT, (req, res) => {

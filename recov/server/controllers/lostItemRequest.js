@@ -1,53 +1,46 @@
 import item from "./../model/lostItem.js";
 
 import asyncHandler from "express-async-handler";
-
+import jwt from "jsonwebtoken";
+import User from "./../model/usermodel.js";
 const lostRequest = asyncHandler(async (req, res) => {
-  const {
-    userName,
-    email,
-    itemName,
-    category,
-    description,
-    image,
-    location,
-    date,
-  } = req.body;
-  if (
-    !userName ||
-    !email ||
-    !itemName ||
-    !category ||
-    !description ||
-    !location
-  ) {
-    res.status(400);
-    throw new Error("Please fill all fields");
-  }
-  const lostitem = await item.create({
-    userName,
-    email,
-    itemName,
-    category,
-    description,
-    image,
-    location,
-    date,
-  });
-  if (lostitem) {
-    res.status(201).json({
-      _id: lostitem._id,
-      userName: lostitem.userName,
-      email: lostitem.email,
-      itemName: lostitem.itemName,
-      category: lostitem.category,
-      description: lostitem.description,
-      image: lostitem.image,
-      location: lostitem.location,
+  try {
+    console.log("Hello");
+    console.log(req.body.token);
+    if (!req.body.token) {
+      throw new ApiError(401, "Unauthorized request");
+    }
+    const decodedToken = jwt.verify(req.body.token, "abc123");
+    const user = await User.findById(decodedToken?._id);
+    if (!user) {
+      throw new ApiError(401, "Invalid Access Token");
+    }
+    console.log(req.body);
+    const { email, itemName, category, description, image, location, date } =
+      req.body;
+    if (!email || !itemName || !category || !description || !location) {
+      throw new ApiError(400, "Please fill all fields");
+    }
+    const lostitem = await item.create({
+      user: user._id,
+      email,
+      itemName,
+      category,
+      description,
+      image,
+      location,
+      date,
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid data");
+    if (lostitem) {
+      res.status(201).json({
+        ok: true,
+        _id: lostitem._id,
+      });
+    } else {
+      throw new ApiError(400, "Invalid data");
+    }
+  } catch (error) {
+    next(error);
   }
 });
 const getItem = asyncHandler(async (req, res) => {
@@ -91,13 +84,44 @@ const getStats = asyncHandler(async (req, res) => {
     const totalLostItems = await item.countDocuments({ itemType: "lost" });
     const totalFoundItems = await item.countDocuments({ itemType: "found" });
     res.json({
-      categoryCounts,
-      totalItems,
-      totalLostItems,
-      totalFoundItems,
+      data: { categoryCounts, totalItems, totalLostItems, totalFoundItems },
+      ok: true,
     });
   } catch (error) {
     throw new ApiError(400, "Error in getting stats");
   }
 });
-export { lostRequest, getItem, test, getStats };
+const getUserItems = asyncHandler(async (req, res) => {
+  try {
+    if (!req.body.token) {
+      throw new ApiError(401, "Unauthorized request");
+    }
+    const { token } = req.body;
+    const decodedToken = jwt.verify(token, "abc123");
+    console.log("decoded token:", decodedToken);
+    const user = await User.findById(decodedToken?._id);
+    if (!user) {
+      throw new ApiError(401, "Invalid Access Token");
+    }
+    const userToFound = user._id;
+    const userItems = await item.find({ user: userToFound });
+    let itemstoMap = [];
+    for (let i = 0; i < userItems.length; i++) {
+      let item = userItems[i];
+      itemstoMap.push({
+        itemName: item.itemName,
+        status: item.itemType,
+      });
+    }
+    res.json({
+      data: {
+        items: itemstoMap,
+      },
+      status: 201,
+      ok: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+export { lostRequest, getItem, test, getStats, getUserItems };

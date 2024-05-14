@@ -18,9 +18,9 @@ export const Header: React.FC<HeaderProps> = ({
         <Link to="/home">
           <div className="flex items-center sm:text-left">
             <PageIcon className={`${iconSize} mr-4`} />
-            <h1 className="text-5xl text-left font-bold text-gray-900 dark:text-gray-100">
+            <h1 className="text-6xl text-left font-bold text-gray-900 dark:text-gray-100">
               {title}
-              <p className="text-2xl mt-2 text-gray-600 dark:text-gray-400">
+              <p className="text-2xl mt-2 mb-5 text-gray-600 dark:text-gray-400">
                 {paragraph}
               </p>
             </h1>

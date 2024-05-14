@@ -22,12 +22,12 @@ export const Tips: React.FC<TipsProps> = ({ tips }) => {
             key={index}
             className="bg-white shadow-lg rounded-lg overflow-hidden animate-fade-in-up-delay-5"
           >
-            <CardContent className="p-8 flex items-center justify-between">
+            <CardContent className="p-10 flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-medium text-gray-900">
+                <h3 className="text-2xl pb-2 font-medium text-gray-900">
                   {tip.title}
                 </h3>
-                <p className="text-lg text-gray-600">{tip.description}</p>
+                <p className="text-xl text-gray-600">{tip.description}</p>
               </div>
             </CardContent>
           </Card>

@@ -1,29 +1,28 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const itemSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      required: [true, 'Please Add A Names'],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     itemName: {
       type: String,
-      required: [true, 'Item Name is required'],
-      unique: true,
+      required: [true, "Item Name is required"],
     },
     category: {
       type: String,
-      required: [true, 'Category is required'],
+      required: [true, "Category is required"],
     },
     description: {
       type: String,
-      required: [true, 'Please Add A Description'],
+      required: [true, "Please Add A Description"],
     },
     image: {
       type: String,
     },
     location: {
       type: String,
-      required: [true, 'Please Add a Location'],
+      required: [true, "Please Add a Location"],
     },
     date: {
       type: Date,
@@ -31,11 +30,11 @@ const itemSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Please Add a Email'],
+      required: [true, "Please Add a Email"],
     },
     status: {
       type: String,
-      default: 'Pending',
+      default: "Pending",
     },
     adminApproval: {
       type: Boolean,
@@ -43,8 +42,8 @@ const itemSchema = new mongoose.Schema(
     },
     itemType: {
       type: String,
-      default: 'lost',
-      required: [true, 'Please Add a Item Type'],
+      default: "lost",
+      required: [true, "Please Add a Item Type"],
     },
   },
   {
@@ -52,5 +51,5 @@ const itemSchema = new mongoose.Schema(
   }
 );
 
-const item = mongoose.model('item', itemSchema);
+const item = mongoose.model("item", itemSchema);
 export default item;
