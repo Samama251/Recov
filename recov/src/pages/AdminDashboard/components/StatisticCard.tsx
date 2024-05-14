@@ -11,7 +11,6 @@ import { useState } from "react";
 
 
 
-
 // StatisticCard.tsx
 export function StatisticCard() {
   const [selectedOption, setSelectedOption] = useState("Lost Items Category");
@@ -51,11 +50,3 @@ export function StatisticCard() {
         )}
         {selectedOption === "Recent Reports" && (
           <ReportTable data={recentReportsData} />
-        )}
-        {selectedOption === "Lost Items Over Time" && (
-          <PieChart data={pieChartData} />
-        )}
-      </CardContent>
-    </Card>
-  );
-}
