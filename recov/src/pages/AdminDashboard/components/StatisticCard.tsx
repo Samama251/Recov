@@ -9,8 +9,7 @@ import { BarChart } from "./BarChart.tsx";
 import { ReportTable } from "./ReportTable.tsx";
 import { useState } from "react";
 
-// StatisticCard.tsx
-export function StatisticCard() {
+export function StatisticCard({ stats }) {
   const [selectedOption, setSelectedOption] = useState("Lost Items Category");
 
   const handleClick = (option) => {
@@ -40,15 +39,9 @@ export function StatisticCard() {
         </button>
       </CardHeader>
       <CardContent>
-        {selectedOption === "Lost Items Category" && (
-          <BarChart data={barChartData} />
-        )}
-        {selectedOption === "Recent Reports" && (
-          <ReportTable data={recentReportsData} />
-        )}
-        {selectedOption === "Lost Items Over Time" && (
-          <PieChart data={pieChartData} />
-        )}
+        {selectedOption === "Lost Items Category" && <BarChart data={stats} />}
+        {selectedOption === "Recent Reports" && <ReportTable data={stats} />}
+        {selectedOption === "Lost Items Over Time" && <PieChart data={stats} />}
       </CardContent>
     </Card>
   );
