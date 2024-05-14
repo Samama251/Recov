@@ -74,7 +74,6 @@ export default function Logs() {
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
               <ItemsList items={items} />
               <div />
-              <div />
               <div className="mt-5 flex justify-between">
                 <button
                   className="h-16 text-lg cursor-pointer overflow-visible rounded border-none bg-[#262626] px-7 text-center text-[#e5e5e5] shadow-md transition-colors duration-150 ease-out hover:bg-[#333333] active:bg-[#444444] active:text-[#ffffff]"

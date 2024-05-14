@@ -39,13 +39,9 @@ export function StatisticCard({ stats }) {
         </button>
       </CardHeader>
       <CardContent>
-        {selectedOption === "Lost Items Category" && (
-          <BarChart data={stats.barChartData} />
-        )}
-        {/* {selectedOption === "Recent Reports" && <ReportTable data={stats} />}
-        {selectedOption === "Lost Items Over Time" && (
-          <PieChart data={stats} />
-        )}{" "} */}
+        {selectedOption === "Lost Items Category" && <BarChart data={stats} />}
+        {selectedOption === "Recent Reports" && <ReportTable data={stats} />}
+        {selectedOption === "Lost Items Over Time" && <PieChart data={stats} />}
       </CardContent>
     </Card>
   );
