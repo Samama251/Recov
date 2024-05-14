@@ -78,18 +78,27 @@ const getStats = asyncHandler(async (req, res) => {
       name: item._id,
       count: item.count,
     }));
+    const totalApprovedRequests = await item.find({ adminApproval: true });
+    const totalRejectedRequests = await item.find({ adminApproval: false });
     const totalItems = await item.countDocuments();
     const totalLostItems = await item.countDocuments({ itemType: "lost" });
     const totalFoundItems = await item.countDocuments({ itemType: "found" });
     console.log("I am being called");
     res.json({
-      data: { categoryCounts, totalItems, totalLostItems, totalFoundItems },
+      data: {
+        categoryCounts,
+        totalItems,
+        totalLostItems,
+        totalFoundItems,
+      },
       ok: true,
     });
   } catch (error) {
     throw new ApiError(400, "Error in getting stats");
   }
 });
+
+// This is a function to get the userSubmissons so that it can be rendered on Myaccount details page
 const getUserItems = asyncHandler(async (req, res) => {
   try {
     if (!req.body.token) {
