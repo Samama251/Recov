@@ -66,6 +66,7 @@ const test = (req, res) => {
 
 const getStats = asyncHandler(async (req, res) => {
   try {
+    console.log("I am being called");
     const categoryresult = await item.aggregate([
       {
         $group: {
@@ -83,6 +84,7 @@ const getStats = asyncHandler(async (req, res) => {
     const totalItems = await item.countDocuments();
     const totalLostItems = await item.countDocuments({ itemType: "lost" });
     const totalFoundItems = await item.countDocuments({ itemType: "found" });
+    console.log("I am being called");
     res.json({
       data: { categoryCounts, totalItems, totalLostItems, totalFoundItems },
       ok: true,
