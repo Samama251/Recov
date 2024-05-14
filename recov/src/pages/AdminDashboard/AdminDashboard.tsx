@@ -16,6 +16,10 @@ export default function AdminDashboard() {
   const [pendingReports, setPendingReports] = useState(0);
   const [resolvedReports, setResolvedReports] = useState(0);
 
+  const [pieChartData, setPieChartData] = useState(0);
+  const [barChartData, setBarChartData] = useState(0);
+  const [recentTablesData, setRecentTablesData] = useState(0);
+
   const getStats = async () => {
     const response = await fetch("http://localhost:3000/api/v1/items/stats");
     const data = await response.json();
@@ -83,7 +87,7 @@ export default function AdminDashboard() {
                 </InfoCard>
               </div>
               <div className="grid gap-8">
-                <StatisticCard stats={{totalLostItems, totalFoundItems, pendingReports, resolvedReports}} />
+                <StatisticCard stats={{pieChartData, barChartData, recentTablesData}} />
               </div>
             </div>
           </main>
