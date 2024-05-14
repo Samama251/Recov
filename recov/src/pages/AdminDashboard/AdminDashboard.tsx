@@ -16,9 +16,9 @@ export default function AdminDashboard() {
   const [pendingReports, setPendingReports] = useState(0);
   const [resolvedReports, setResolvedReports] = useState(0);
 
-  const [pieChartData, setPieChartData] = useState(0);
-  const [barChartData, setBarChartData] = useState(0);
-  const [recentTablesData, setRecentTablesData] = useState(0);
+  const [pieChartData, setPieChartData] = useState([]);
+  const [barChartData, setBarChartData] = useState([]);
+  const [recentTablesData, setRecentTablesData] = useState([]);
 
   const getStats = async () => {
     const response = await fetch("http://localhost:3000/api/v1/items/stats");
@@ -27,6 +27,7 @@ export default function AdminDashboard() {
     setTotalFoundItems(data.data.totalFoundItems);
     setPendingReports(data.data.totalItems);
     setResolvedReports(data.data.totalItems);
+    setBarChartData(data.data.categoryCounts);
   };
 
   useEffect(() => {
@@ -89,9 +90,7 @@ export default function AdminDashboard() {
               </InfoCard>
             </div>
             <div className="grid gap-8">
-              <StatisticCard
-                stats={{ pieChartData, barChartData, recentTablesData }}
-              />
+              <StatisticCard stats={{ barChartData }} />
             </div>
           </div>
         </main>
