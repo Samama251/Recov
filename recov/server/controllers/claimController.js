@@ -77,6 +77,7 @@ const getClaimRequest = asyncHandler(async (req, res, next) => {
   try {
     console.log("I was called Once Upon A Time in library.js");
     const page = parseInt(req.query.page);
+    console.log("Page this is being callled", page);
     const startIndex = (page - 1) * 6;
     const paginatedClaimRequests = await claim
       .find()
@@ -85,9 +86,8 @@ const getClaimRequest = asyncHandler(async (req, res, next) => {
       .limit(6)
       .populate("user")
       .populate("item");
-    console.log(paginatedClaimRequests);
     const totalClaims = await claim.countDocuments();
-    const totalPages = Math.ceil(totalItems / 6);
+    const totalPages = Math.ceil(totalClaims / 6) + 1;
     res.status(200).json({
       ok: true,
       data: paginatedClaimRequests,
