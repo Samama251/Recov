@@ -8,10 +8,11 @@ import {
 import { Label } from "../../@/components/ui/label.tsx";
 import { Input } from "../../@/components/ui/input.tsx";
 import { Button } from "../../@/components/ui/button.tsx";
-
+import {FormLoader} from "../../public/Loader/FormLoader.tsx";
 import { Textarea } from "../../@/components/ui/textarea.tsx";
 import { UploadIcon, CalendarIcon } from "../../public/itemIcons/itemIcons.tsx";
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "react-calendar/dist/Calendar.css";
 import { useUserContext } from "../context/userContext.tsx";
 interface ReportFormProps {
@@ -38,6 +39,9 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
   const [emailError, setEmailError] = useState("");
   const { token } = useUserContext();
   const [isNextClicked, setIsNextClicked] = useState(false);
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add this line
+
 
   const handleNextClick = () => {
     let hasError = false;
@@ -81,14 +85,26 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
     }
 
     if (!hasError) {
+      setIsSubmitting(false); // Reset isSubmitting state here
       setIsNextClicked(true);
+    }
+
+    // Only open the loader if all fields are filled
+    if (name && email) {
+      setIsSubmitting(true);
     }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true); // Set isSubmitting to true when the form is submitted
 
     let hasError = false;
+
+    if (hasError) {
+      setIsSubmitting(false);
+      return;
+    }
 
     if (!name) {
       setNameError("Name is required");
@@ -97,7 +113,7 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
       setNameError("");
     }
 
-    if (!email) {
+    if (!email ) {
       setEmailError("Email is required");
       hasError = true;
     } else {
@@ -158,11 +174,17 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
             body: JSON.stringify({ ...report, token }),
           }
         );
-
         console.log(await reportResponse.json());
+
+        // Redirect to the home page after successful submission
+        navigate('/home');
+
+        setIsSubmitting(false); // Set isSubmitting back to false after the form is submitted
+
         return true;
       } catch (err) {
         console.log(err);
+        setIsSubmitting(false);
         return false;
       }
     };
@@ -190,12 +212,13 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
                 categoryError={categoryError}
               />
               <FoundDetails
-                location={location}
-                setLocation={setLocation}
-                date={date}
-                setDate={setDate}
-                locationError={locationError}
-                dateError={dateError}
+                  location={location}
+                  setLocation={setLocation}
+                  date={date}
+                  setDate={setDate}
+                  locationError={locationError}
+                  dateError={dateError}
+                  formType={formType}
               />
               <Description
                 description={description}
@@ -221,11 +244,12 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
               />
               <UploadImage image={image} setImage={setImage} />
               <Button
-                className="w-full h-16 bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-500 rounded-xl py-4 animate-fade-in-up"
+                className="w-full h-16 bg-gray-900 text-white text-xl hover:bg-gray-800 focus:ring-gray-500 rounded-xl py-4 animate-fade-in-up"
                 type="submit"
                 onClick={handleSubmit}
+                disabled={isSubmitting} // Disable the button when the form is being submitted
               >
-                Submit
+                {isSubmitting ? <FormLoader /> : 'Submit'} {/* Render the loader when the form is being submitted */}
               </Button>
             </>
           )}
@@ -235,7 +259,6 @@ export const ReportForm: React.FC<ReportFormProps> = ({ title , formType}) => {
   );
 };
 
-// FoundDetails.tsx
 interface FoundDetailsProps {
   location: string;
   setLocation: (value: string) => void;
@@ -243,14 +266,17 @@ interface FoundDetailsProps {
   setDate: (value: string) => void;
   locationError: string;
   dateError: string;
+  formType: 'Found' | 'Lost';
 }
+
 export const FoundDetails: React.FC<FoundDetailsProps> = ({
-  location,
-  setLocation,
-  setDate,
-  locationError,
-  dateError,
-}) => {
+                                                            location,
+                                                            setLocation,
+                                                            setDate,
+                                                            locationError,
+                                                            dateError,
+                                                            formType, // Destructure formType from the props
+                                                          }) => {
   const [dateInput, setDateInput] = useState("");
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -291,7 +317,7 @@ export const FoundDetails: React.FC<FoundDetailsProps> = ({
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       <div className="space-y-1">
         <Label htmlFor="location" className="text-3xl">
-          Location Found
+          {formType === 'Found' ? 'Location Found' : 'Last Seen At'}
         </Label>
         <Input
           className="text-xl  p-8"
@@ -305,7 +331,7 @@ export const FoundDetails: React.FC<FoundDetailsProps> = ({
 
       <div className="space-y-2 ">
         <Label htmlFor="date" className="text-3xl ">
-          Date Found
+          {formType === 'Found' ? 'Date found' : 'Lost Date'}
         </Label>
         <div>
           <div className="relative">

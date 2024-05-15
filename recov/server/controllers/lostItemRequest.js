@@ -15,8 +15,16 @@ const lostRequest = asyncHandler(async (req, res) => {
       throw new ApiError(401, "Invalid Access Token");
     }
     console.log(req.body);
-    const { email, itemName, category, description, image, location, date } =
-        req.body;
+    const {
+      email,
+      itemName,
+      category,
+      description,
+      image,
+      location,
+      date,
+      formType,
+    } = req.body;
     if (!email || !itemName || !category || !description || !location) {
       throw new ApiError(400, "Please fill all fields");
     }
@@ -29,6 +37,7 @@ const lostRequest = asyncHandler(async (req, res) => {
       image,
       location,
       date,
+      itemType: formType,
     });
     if (lostitem) {
       res.status(201).json({

@@ -4,27 +4,31 @@ import jwt from "jsonwebtoken";
 import User from "./../model/usermodel.js";
 import claim from "./../model/claim.js";
 
-const CreateClaimRequest = asyncHandler(async (req, res) => {
+const createClaimRequest = asyncHandler(async (req, res) => {
   try {
     console.log("Hello");
     console.log(req.body.token);
     if (!req.body.token) {
       throw new ApiError(401, "Unauthorized request");
     }
+
     const decodedToken = jwt.verify(req.body.token, "abc123");
     const user = await User.findById(decodedToken?._id);
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
     console.log(req.body);
-    const { description, item } = req.body;
-    if (!description || !item) {
+    const { description, itemId, additionalInfo } = req.body;
+    console.log("Error at line 22");
+    if (!description || !itemId) {
       throw new ApiError(400, "Please fill all fields");
     }
+    console.log("Error at line 26");
     const claimItem = await claim.create({
       user: user._id,
-      item,
+      item: itemId,
       description,
+      additionalInfo,
     });
     if (claimItem) {
       res.status(201).json({
@@ -32,6 +36,7 @@ const CreateClaimRequest = asyncHandler(async (req, res) => {
         _id: claimItem._id,
       });
     } else {
+      console.log("Error at line 37");
       throw new ApiError(400, "Invalid data");
     }
   } catch (error) {
@@ -68,3 +73,5 @@ const deleteClaimRequest = asyncHandler(async (req, res) => {
     next(error);
   }
 });
+
+export { createClaimRequest, deleteClaimRequest };

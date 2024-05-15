@@ -1,23 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const claimSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+        item: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "lostItem",
+        },
+        description: {
+            type: String,
+            required: [true, "Please Add A Description"],
+        },
+        additionalInfo: {
+            type: String,
+            required: [true, "Please Add Additional Information"],
+        },
     },
-    item: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'lostItem',
-    },
-    descriptiom: {
-      type: String,
-      required: [true, 'Please Add A Description'],
-    },
-  },
-  {
-    timestamps: true,
-  }
+    {
+        timestamps: true,
+    }
 );
-const claim = mongoose.model('claim', claimSchema);
+const claim = mongoose.model("claim", claimSchema);
 export default claim;

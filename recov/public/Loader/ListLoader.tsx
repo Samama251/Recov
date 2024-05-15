@@ -1,6 +1,6 @@
-import './Loader.css'; // Import the CSS file
+import './ListLoader.css'; // Import the CSS file
 
-export const Loader = () => {
+export const ListLoader = () => {
     return (
         <div className="loader">
             <div className="square" id="sq1"></div>
@@ -16,4 +16,4 @@ export const Loader = () => {
     );
 };
 
-export default Loader;
+export default ListLoader;

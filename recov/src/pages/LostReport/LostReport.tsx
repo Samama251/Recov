@@ -39,13 +39,13 @@ export default function FoundReport() {
         <main className="flex flex-col bg-white  py-12 px-4 sm:px-6 lg:px-8">
           <Header
               title="Lost Something?"
-              paragraph="Submit a report and we'll help you find the owner."
+              paragraph="Submit a report and we'll help you find your saman!."
               iconSize="h-28 w-28"
           />{' '}
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            <ReportForm title="Lost Found Report" formType="Found" />
+            <ReportForm title="Lost" formType="Lost" />
             <div>
-              <RecentItems items={recentItems} title="Recent Found Items" />
+              <RecentItems items={recentItems} title="Recent Lost Items" />
               <Tips tips={tips} />
             </div>
           </div>

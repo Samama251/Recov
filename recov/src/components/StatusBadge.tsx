@@ -1,7 +1,7 @@
 import React from "react";
 
 interface StatusBadgeProps {
-  status: "Lost" | "Found";
+  status: string;
 }
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
