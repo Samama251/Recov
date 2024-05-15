@@ -17,16 +17,16 @@ export function Header() {
         <span className="text-3xl font-semibold">Lost & Found</span>
       </Link>
       <nav className="hidden gap-8 text-base font-medium md:flex pr-5 mr-10">
-        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="#">
+        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="/home">
           Dashboard
         </Link>
-        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="#">
+        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="/home/report-logs/">
           Report Logs
         </Link>
-        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="#">
+        <Link className="text-gray-500 text-2xl hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="/home/user-logs/">
           User Logs
         </Link>
-        <Link className="text-gray-500 text-2xl  hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="#">
+        <Link className="text-gray-500 text-2xl  hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" to="/home/claim-logs/">
           Claim Logs
         </Link>
       </nav>
