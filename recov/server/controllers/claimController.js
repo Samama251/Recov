@@ -73,5 +73,29 @@ const deleteClaimRequest = asyncHandler(async (req, res) => {
     next(error);
   }
 });
-
-export { createClaimRequest, deleteClaimRequest };
+const getClaimRequest = asyncHandler(async (req, res, next) => {
+  try {
+    console.log("I was called Once Upon A Time in library.js");
+    const page = parseInt(req.query.page);
+    const startIndex = (page - 1) * 6;
+    const paginatedClaimRequests = await claim
+      .find()
+      .sort({ timestamp: -1 })
+      .skip(startIndex)
+      .limit(6)
+      .populate("user")
+      .populate("item");
+    console.log(paginatedClaimRequests);
+    const totalClaims = await claim.countDocuments();
+    const totalPages = Math.ceil(totalItems / 6);
+    res.status(200).json({
+      ok: true,
+      data: paginatedClaimRequests,
+      totalPages,
+      totalClaims,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+export { createClaimRequest, deleteClaimRequest, getClaimRequest };

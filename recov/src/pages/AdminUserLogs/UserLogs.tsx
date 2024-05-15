@@ -1,79 +1,62 @@
 // AdminClaimLogs.tsx
-import { LogsHeader } from '../../components/LogsHeader.tsx';
-import { Table } from './components/Table.tsx';
-import {Pagination} from "../../components/Pagination.tsx";
-import { useState } from 'react';
-// import { deleteRecord } from './api'; // Import your API function
+import { LogsHeader } from "../../components/LogsHeader.tsx";
+import { Table } from "./components/Table.tsx";
+import { Pagination } from "../../components/Pagination.tsx";
+import { useState, useEffect } from "react"; // Added useEffect
 
-// Sample data for the table
-const claimData = [
-    {
-        user: {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            location: '123 Main St, Anytown USA'
-        },
-        item: {
-            title: 'Lost Wallet',
-            description: 'Leather wallet with ID and credit cards'
-        },
-        status: 'Accepted',
-        dateReported: '2023-05-14',
-        timestamp: new Date('2023-05-14T00:00:00').toISOString()
-    },
-    {
-        user: {
-            name: 'Jane Doe',
-            email: 'janedoe@example.com',
-            location: '456 Elm St, Anytown USA'
-        },
-        item: {
-            title: 'Lost Keys',
-            description: 'Set of house and car keys on a keychain'
-        },
-        status: 'Accepted',
-        dateReported: '2023-05-15',
-        timestamp: new Date('2022-05-14T00:00:00').toISOString()
-
-    },
-    {
-        user: {
-            name: 'Bob Smith',
-            email: 'bobsmith@example.com',
-            location: '789 Pine St, Anytown USA',
-            timestamp: new Date('2024-05-14T00:00:00').toISOString()
-
-        },
-        item: {
-            title: 'Lost Phone',
-            description: 'Black iPhone 12'
-        },
-        status: 'Rejected',
-        dateReported: '2023-05-16',
-        timestamp: new Date('2023-01-14T00:00:00').toISOString()
-    },
-    ];
+// Removed unused import
+// import { Trophy } from "lucide-react";
 
 export default function AdminReportLogs() {
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
-    const totalPages = Math.ceil(claimData.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [claimData, setClaimData] = useState([]);
+  const [error, setError] = useState(null); // Added for error handling
+  const [totalPages, setTotalPages] = useState(1); // Added for pagination
+  const getClaimData = async () => {
+    try {
+      console.log("Fetching data ");
+      const response = await fetch(
+        `http://localhost:3000/api/v1/claim/getClaim?page=${currentPage}`
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch claims");
+      } else {
+        setClaimData(data.data);
+        setTotalPages(data.totalPages); // Set total pages
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message); // Set error state
+    }
+  };
 
-    const handleDelete = async (itemToDelete) => {
-        // const response = await deleteRecord(itemToDelete.id); // Call your API function
+  useEffect(() => {
+    getClaimData();
+  }, [currentPage]);
 
-        // if (response.success) {
-        //     setData(data.filter(item => item !== itemToDelete));
-        // } else {
-        //     console.error('Failed to delete record:', response.error);
-        // }
-    };
+  const handleDelete = async (itemToDelete) => {
+    // Implement delete functionality here
+  };
 
-    return (
-        <div className="container mx-auto px-4  md:px-6 md:py-12">
-            <LogsHeader title="User Logs" placeholder="          User Claim logs..." baseRoute="/home/user-logs" />
-            <Table data={claimData} onDelete={handleDelete} />
-            <Pagination currentPage={currentPage} totalPages={totalPages} baseRoute="/home/claim-logs" />
-        </div>
-    );
+  // Added error message display
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4  md:px-6 md:py-12">
+      <LogsHeader
+        title="User Logs"
+        placeholder="          User Claim logs..."
+        baseRoute="/home/user-logs"
+      />
+      <Table data={claimData} onDelete={handleDelete} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages} // This should be calculated based on total number of records
+        baseRoute="/home/claim-logs"
+      />
+    </div>
+  );
 }
