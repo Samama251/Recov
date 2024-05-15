@@ -10,6 +10,7 @@ interface ItemCardProps {
     user: string;
     itemName: string;
     description: string;
+    shortDescription: string;
     date: Date;
     category: string;
     itemType: string;
@@ -24,6 +25,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
                                                       user,
                                                       itemName,
                                                       description,
+                                                      shortDescription,
                                                       date,
                                                       category,
                                                       itemType,
@@ -37,13 +39,13 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         _id: _id,
         itemName: itemName,
         description: description,
-        image: image, // replace with actual image path
+        image: image,
         date: date,
         category: category,
-        user: user, // replace with actual reportedBy value
+        user: user,
         location: location,
         itemType: itemType,
-        email: email, // replace with actual location value
+        email: email,
     };
 
     const handleButtonClick = () => {
@@ -59,10 +61,10 @@ export const ItemCard: React.FC<ItemCardProps> = ({
                 <div className="space-y-1">
                     <h3 className="text-xl sm:text-xl font-medium">{itemName}</h3>
                     <p className="text-lg sm:text-lg text-gray-500 dark:text-gray-400 max-w-prose">
-                        {description}
+                        {shortDescription}
                     </p>
                     <div className="flex mt-3 items-center gap-2 text-sm sm:text-sm text-gray-500 dark:text-gray-400">
-                        <CalendarIcon className="w-6 h-6 sm:w-6 sm:h-6" />
+                        <CalendarIcon className="w-10 h-10 sm:w-6 sm:h-6" />
                         <span>Date Reported: {date}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm sm:text-sm text-gray-500 dark:text-gray-400">

@@ -400,12 +400,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
           className="border-[1px]  block w-full pl-3 pr-10 py-3 text-xl border-gray-200 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-xl rounded-md"
         >
           <option value="">Select a category</option>
-          <option value="electronics">Electronics</option>
-          <option value="documents">Documents</option>
-          <option value="stationary">Stationary</option>
-          <option value="sports-equipment">Sports Equipment</option>
-          <option value="personal-items">Personal Items</option>
-          <option value="others">Others</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Jewelry">Jewelry</option>
+          <option value="Documents">Documents</option>
+          <option value="Stationary">Stationary</option>
+          <option value="Bags and Wallets">Sports Equipment</option>
+          <option value="Personal Items">Personal Items</option>
+          <option value="Others">Others</option>
         </select>
         {categoryError && <p className="text-red-500">{categoryError}</p>}
       </div>

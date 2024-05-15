@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ItemCard } from "../../../components/ItemCard.tsx";
 import { PackageIcon } from "../../../../public/itemIcons/itemIcons.tsx";
+import {GemIcon, FileTextIcon, LaptopIcon, PencilIcon, ShoppingBagIcon, UserIcon} from "../../../../public/categoryIcons/categoryIcons.tsx";
 
 interface Item {
   _id: string;
@@ -22,6 +23,26 @@ interface ItemsListProps {
 
 export function ItemsList({ items, sortOption }: ItemsListProps) {
   const [sortedItems, setSortedItems] = useState([...items]);
+
+
+  const getIconComponent = (category: string) => {
+    switch (category) {
+      case 'Electronics':
+        return LaptopIcon;
+      case 'Personal Items':
+        return UserIcon;
+      case 'Clothing':
+        return ShoppingBagIcon;
+      case 'Jewelry':
+        return GemIcon;
+      case 'Documents':
+        return FileTextIcon;
+      case 'Stationery':
+        return PencilIcon;
+      default:
+        return PackageIcon;
+    }
+  };
 
   function truncateString(str, num) {
     if (str.length <= num) {
@@ -53,9 +74,10 @@ export function ItemsList({ items, sortOption }: ItemsListProps) {
             <ItemCard
                 key={item._id}
                 _id={item._id}
-                IconComponent={PackageIcon}
+                IconComponent={getIconComponent(item.category)}
                 itemName={item.itemName}
-                description={truncateString(item.description, 25)}
+                description={item.description}
+                shortDescription={truncateString(item.description, 25)}
                 date={item.date}
                 category={item.category}
                 user={item.user}
@@ -67,4 +89,4 @@ export function ItemsList({ items, sortOption }: ItemsListProps) {
         ))}
       </>
   );
-}
+};
