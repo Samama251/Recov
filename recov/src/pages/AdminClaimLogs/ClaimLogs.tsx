@@ -53,6 +53,7 @@ export default function ClaimLogs() {
         currentPage={currentPage}
         totalPages={totalPages}
         baseRoute="/home/claim-logs"
+        onPageChange={(newPage) => setCurrentPage(newPage)}
       />
     </div>
   );

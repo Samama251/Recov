@@ -76,6 +76,7 @@ const deleteClaimRequest = asyncHandler(async (req, res) => {
 const getClaimRequest = asyncHandler(async (req, res, next) => {
   try {
     console.log("I was called Once Upon A Time in library.js");
+    console.log(req.query);
     const page = parseInt(req.query.page);
     console.log("Page this is being callled", page);
     const startIndex = (page - 1) * 6;
