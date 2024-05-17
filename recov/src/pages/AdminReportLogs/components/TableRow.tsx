@@ -11,9 +11,45 @@ import { useState } from "react";
 
 export function TableRow({
   data,
-  onAccept = (data) => console.log("Accept clicked"),
-  onReject = (data) => console.log("Reject clicked"),
-  onDelete = (daya) => console.log("Delete clicked"),
+  onAccept = (data) => {
+    const fetchData = async () => {
+      try {
+        const claimId = data._id;
+        console.log("Claim ID", claimId);
+        const response = await fetch(
+          `http://localhost:3000/api/v1/items/acceptRequest?claimId=${claimId}`,
+          {
+            method: "PATCH",
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  },
+  onReject = (data) => {
+    const fetchData = async () => {
+      try {
+        const claimId = data._id;
+        console.log("Claim ID", claimId);
+        const response = await fetch(
+          `http://localhost:3000/api/v1/items/rejectRequest?claimId=${claimId}`,
+          {
+            method: "PATCH",
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  },
+  onDelete = (data) => console.log("Delete clicked"),
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

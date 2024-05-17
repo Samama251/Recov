@@ -39,6 +39,7 @@ export function TableRow({
           `http://localhost:3000/api/v1/claim/rejectClaim?claimId=${claimId}`,
           {
             method: "PATCH",
+            body: JSON.stringify(data),
           }
         );
         const responseData = await response.json();

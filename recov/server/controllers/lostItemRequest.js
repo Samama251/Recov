@@ -2,6 +2,7 @@ import item from "./../model/lostItem.js";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import User from "./../model/usermodel.js";
+import notification from "../model/notification.js";
 const lostRequest = asyncHandler(async (req, res) => {
   try {
     console.log("Hello");
@@ -57,8 +58,10 @@ const getItem = asyncHandler(async (req, res) => {
   const pageSize = 10;
 
   const startIndex = (page - 1) * pageSize;
-
-  const paginatedItems = await item.find().skip(startIndex).limit(pageSize);
+  const paginatedItems = await item
+    .find({ adminApproval: true })
+    .skip(startIndex)
+    .limit(pageSize);
   const totalItems = await item.countDocuments();
 
   const totalPages = Math.ceil(totalItems / pageSize);
@@ -175,4 +178,73 @@ const getItems = asyncHandler(async (req, res) => {
     },
   });
 });
-export { lostRequest, getItem, test, getStats, getUserItems, getItems };
+
+const acceptlostRequest = asyncHandler(async (req, res) => {
+  try {
+    const id = req.query.claimId;
+    const itemToAccept = await item.findById(id);
+    if (!itemToAccept) {
+      throw new ApiError(404, "Item not found");
+    }
+    itemToAccept.status = "Accepted";
+    itemToAccept.adminApproval = true;
+    await itemToAccept.save();
+    console.log("Item status has been updated successfully");
+    const notificationMessage = "Your request has been accepted";
+    console.log("Item to accept user", itemToAccept.user);
+    const newNotification = await notification.create({
+      user: itemToAccept.user,
+      text: notificationMessage,
+    });
+    console.log("New Notification", newNotification);
+    if (newNotification) {
+      res.status(200).json({
+        ok: true,
+        message: "Request accepted",
+      });
+    } else {
+      throw new ApiError(400, "Failed to create notification");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+const rejectlostRequest = asyncHandler(async (req, res) => {
+  try {
+    const id = req.query.claimId;
+    const itemToAccept = await item.findById(id);
+    if (!itemToAccept) {
+      throw new ApiError(404, "Item not found");
+    }
+    itemToAccept.status = "Rejected";
+    await itemToAccept.save();
+    console.log("Item status has been updated successfully");
+    const notificationMessage = "Your request has been rejected";
+    console.log("Item to accept user", itemToAccept.user);
+    const newNotification = await notification.create({
+      user: itemToAccept.user,
+      text: notificationMessage,
+    });
+    console.log("New Notification", newNotification);
+    if (newNotification) {
+      res.status(200).json({
+        ok: true,
+        message: "Request accepted",
+      });
+    } else {
+      throw new ApiError(400, "Failed to create notification");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+export {
+  lostRequest,
+  getItem,
+  test,
+  getStats,
+  getUserItems,
+  getItems,
+  acceptlostRequest,
+  rejectlostRequest,
+};
