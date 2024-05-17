@@ -1,7 +1,7 @@
 // Table.tsx
 import { TableRow } from "./TableRow.tsx";
 
-export function Table({ data = [], onDelete }) {
+export function Table({ data = [] }) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <table className="w-full table-auto ">
@@ -15,7 +15,7 @@ export function Table({ data = [], onDelete }) {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <TableRow key={index} data={item} onDelete={onDelete} />
+            <TableRow key={index} data={item} />
           ))}
         </tbody>
       </table>

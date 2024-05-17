@@ -33,11 +33,6 @@ export default function ClaimLogs() {
       setError(err.message); // Set error state
     }
   };
-  // Added error message display
-  const handleDelete = async (itemToDelete) => {};
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   useEffect(() => {
     getClaimData(currentPage);
@@ -50,7 +45,7 @@ export default function ClaimLogs() {
         placeholder="          Search Claim logs..."
         baseRoute="/home/claim-logs"
       />
-      <Table data={claimData} onDelete={handleDelete} />
+      <Table data={claimData} />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

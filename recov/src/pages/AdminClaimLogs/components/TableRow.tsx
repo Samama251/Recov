@@ -66,8 +66,8 @@ export function TableRow({
       } catch (error) {
         console.error("Error:", error);
       }
-      deleteData();
     };
+    deleteData();
   },
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,6 +152,6 @@ export function TableRow({
         onClose={() => setIsModalOpen(false)}
         item={data.item}
       />
-    </tr> // ... rest of the component
+    </tr>
   );
 }
