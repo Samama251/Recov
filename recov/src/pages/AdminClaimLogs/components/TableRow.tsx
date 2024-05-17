@@ -7,13 +7,68 @@ import {
   EyeIcon,
 } from "../../../../public/itemIcons/itemIcons.tsx";
 import { useState } from "react";
-import {LoggedClaimDetails} from './LoggedClaimDetails/LoggedClaimDetails.tsx'; // Import your modal component
+import { LoggedClaimDetails } from "./LoggedClaimDetails/LoggedClaimDetails.tsx"; // Import your modal component
 
 export function TableRow({
   data,
-  onAccept = () => console.log("Accept clicked"),
-  onReject = () => console.log("Reject clicked"),
-  onDelete = (deleteFunction) => deleteFunction(),
+  onAccept = (data) => {
+    const fetchData = async () => {
+      try {
+        const claimId = data._id;
+        console.log("Claim ID", claimId);
+        const response = await fetch(
+          `http://localhost:3000/api/v1/claim/acceptClaim?claimId=${claimId}`,
+          {
+            method: "PATCH",
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  },
+  onReject = (data) => {
+    const fetchData = async () => {
+      try {
+        const claimId = data._id;
+        console.log("Claim ID", claimId);
+        const response = await fetch(
+          `http://localhost:3000/api/v1/claim/rejectClaim?claimId=${claimId}`,
+          {
+            method: "PATCH",
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  },
+  onDelete = (data) => {
+    const deleteData = async () => {
+      try {
+        console.log("On delete Function was called");
+        const claimId = data._id;
+        console.log("Claim ID", claimId);
+        const response = await fetch(
+          `http://localhost:3000/api/v1/claim/deleteClaim?claimId=${claimId}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+      deleteData();
+    };
+  },
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -92,7 +147,11 @@ export function TableRow({
           </div>
         </td>
       </div>
-      <LoggedClaimDetails isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} item={data.item} />
-    </tr>
+      <LoggedClaimDetails
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        item={data.item}
+      />
+    </tr> // ... rest of the component
   );
 }
