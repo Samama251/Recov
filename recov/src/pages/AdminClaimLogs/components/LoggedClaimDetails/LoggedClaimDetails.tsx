@@ -52,10 +52,12 @@ export const LoggedClaimDetails: React.FC<ViewDetailsModalProps> = ({ isOpen, on
                             </div>
                             <div className="pl-5">
                                 <p className="text-3xl mb-1">{item.title}</p>
+                                <h3>How you lost it?</h3>
                                 <p className="text-2xl pl-1 text-gray-500 mb-8"> {item.description}</p>
                                 <p className="text-xl text-gray-500 pl-1  mb-2">Reported Date: {item.reportedDate}</p>
                                 <p className="text-xl text-gray-500 pl-1 mb-2">Reported By: {item.reportedBy}</p>
                                 <p className="text-xl text-gray-500 pl-1 mb-2">Location: {item.location}</p>
+                                <p>Additional Details: </p>
                             </div>
                         </div>
                         <div className="flex justify-between mt-4">

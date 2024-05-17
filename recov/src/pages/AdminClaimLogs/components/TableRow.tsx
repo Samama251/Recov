@@ -7,7 +7,7 @@ import {
   EyeIcon,
 } from "../../../../public/itemIcons/itemIcons.tsx";
 import { useState } from "react";
-// import {LoggedClaimDetails} from './LoggedClaimDetails/LoggedClaimDetails.tsx'; // Import your modal component
+import {LoggedClaimDetails} from './LoggedClaimDetails/LoggedClaimDetails.tsx'; // Import your modal component
 
 export function TableRow({
   data,
@@ -92,7 +92,7 @@ export function TableRow({
           </div>
         </td>
       </div>
-      {/*<LoggedClaimDetails isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} item={data.item} />*/}
+      <LoggedClaimDetails isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} item={data.item} />
     </tr>
   );
 }
