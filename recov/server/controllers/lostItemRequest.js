@@ -146,4 +146,33 @@ const getUserItems = asyncHandler(async (req, res) => {
     next(error);
   }
 });
-export { lostRequest, getItem, test, getStats, getUserItems };
+const getItems = asyncHandler(async (req, res) => {
+  console.log(
+    "Hello I am in the getItems function which will be used to get all the items for the admin to approve or reject"
+  );
+  const page = parseInt(req.query.page);
+  const pageSize = 10;
+
+  const startIndex = (page - 1) * pageSize;
+
+  const items = await item
+    .find()
+    .sort({ createdAt: -1 })
+    .skip(startIndex)
+    .limit(pageSize)
+    .populate("user");
+  const totalItems = await item.countDocuments();
+
+  const totalPages = Math.ceil(totalItems / pageSize) + 1;
+
+  // Send the paginated products and total pages as the API response
+  res.json({
+    ok: true,
+    data: {
+      items,
+      totalPages,
+      totalItems,
+    },
+  });
+});
+export { lostRequest, getItem, test, getStats, getUserItems, getItems };
