@@ -20,13 +20,13 @@ export default function MyAccount() {
         console.log("Here Goes The Token", token);
         console.log(JSON.stringify({ token }));
         const response = await fetch(
-            "http://localhost:3000/api/v1/items/userItems",
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+          "http://localhost:3000/api/v1/items/userItems",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log("I am after the api call");
         if (!response.ok) {
@@ -49,19 +49,19 @@ export default function MyAccount() {
   }, []); // Dependency on currentPage
 
   return (
-      <main className="container mx-auto py-12 px-12 md:px-6">
+    <main className="container mx-auto py-12 px-12 md:px-6">
+      <div className="space-y-8">
+        <div className="space-y-4">
+          <Header title="My Account" paragraph="" iconSize="h-28 w-28" />{" "}
+          <AccountDetails />
+        </div>
         <div className="space-y-8">
           <div className="space-y-4">
-            <Header title="My Account" paragraph="" iconSize="h-28 w-28" />{" "}
-            <AccountDetails />
-          </div>
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-4xl my-2 font-semibold">My Submissions</h2>
-              <SubmissionsList submissions={submissions} />
-            </div>
+            <h2 className="text-4xl my-2 font-semibold">My Submissions</h2>
+            <SubmissionsList submissions={submissions} />
           </div>
         </div>
-      </main>
+      </div>
+    </main>
   );
 }
