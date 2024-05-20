@@ -1,17 +1,53 @@
-import { PackageIcon } from "../../../../public/itemIcons/itemIcons.tsx";
-
+import {PackageIcon, Trash2Icon} from "../../../../public/itemIcons/itemIcons.tsx";
 import { StatusBadge } from "../../../components/StatusBadge.tsx";
+import {Button} from "../../../../@/components/ui/button.tsx";
 
 interface SubmissionItemProps {
     title: string;
     date: string;
+    id: string;
     status: "Lost" | "Found";
 }
+
+const deleteSubmissionAndLog = async (submissionId) => {
+    try {
+        // Delete the submission
+        const response = await fetch(`http://localhost:3000/api/v1/submissions/${submissionId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // assuming you have a token for authentication
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Delete the log
+        const logResponse = await fetch(`http://localhost:3000/api/v1/logs/${submissionId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // assuming you have a token for authentication
+            },
+        });
+
+        if (!logResponse.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Refresh the submission list and logs here
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 export const SubmissionItem: React.FC<SubmissionItemProps> = ({
                                                                   title,
                                                                   date,
                                                                   status,
+                                                                  id
                                                               }) => (
     <div className="grid grid-cols-[auto,1fr,auto] items-center gap-4 px-4 py-3">
         <div className="flex h-20 w-20 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
@@ -23,8 +59,16 @@ export const SubmissionItem: React.FC<SubmissionItemProps> = ({
                 Reported on {new Date(date).toLocaleDateString()}
             </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-5">
             <StatusBadge status={status} />
+            <Button
+                onClick={() => deleteSubmissionAndLog(id)}
+                className="px-4 py-6 text-red-500 hover:bg-red-100 focus:ring-red-500"
+                size="sm"
+                variant="outline"
+            >
+                <Trash2Icon className="w-6 h-6"/>
+            </Button>
         </div>
     </div>
 );
