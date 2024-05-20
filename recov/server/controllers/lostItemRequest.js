@@ -93,15 +93,16 @@ const getStats = asyncHandler(async (req, res) => {
     const totalApprovedRequests = await item.find({ adminApproval: true });
     const totalRejectedRequests = await item.find({ adminApproval: false });
     const totalItems = await item.countDocuments();
-    const totalLostItems = await item.countDocuments({ itemType: "lost" });
-    const totalFoundItems = await item.countDocuments({ itemType: "found" });
+    const totalLostItems = await item.countDocuments({ itemType: "Lost" });
+    const totalFoundItems = await item.countDocuments({ itemType: "Found" });
     console.log("I am being called");
     res.json({
       data: {
         categoryCounts,
-        totalItems,
+        totalApprovedRequests: totalApprovedRequests.length,
         totalLostItems,
         totalFoundItems,
+        totalRejectedRequests: totalRejectedRequests.length,
       },
       ok: true,
     });

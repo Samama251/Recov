@@ -1,6 +1,5 @@
 // BarChart.js
 import { ResponsiveBar } from "@nivo/bar";
-
 export function BarChart({ data }) {
   return (
     <div className="w-full h-[40vh]">
