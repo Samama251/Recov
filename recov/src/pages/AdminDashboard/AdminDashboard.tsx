@@ -26,8 +26,6 @@ export default function AdminDashboard() {
     setTotalFoundItems(data.data.totalFoundItems);
     setPendingReports(data.data.totalApprovedRequests);
     setResolvedReports(data.data.totalApprovedRequests);
-    console.log(data.data.totalApprovedRequests);
-    console.log(data.data.categoryCounts);
     setBarChartData(data.data.categoryCounts);
   };
 

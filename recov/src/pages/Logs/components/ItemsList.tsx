@@ -45,6 +45,8 @@ export function ItemsList({ items, sortOption }: ItemsListProps) {
         return FileTextIcon;
       case "Stationery":
         return PencilIcon;
+      case "personal-items":
+        return UserIcon;
       default:
         return PackageIcon;
     }

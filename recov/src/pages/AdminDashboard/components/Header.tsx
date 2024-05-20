@@ -17,6 +17,7 @@ export function Header() {
   const { setUserType } = useUserContext();
   const handleLogout = () => {
     // Implement your logout logic here
+
     setLoggedIn(false);
     setToken("");
     setUserType("user");
