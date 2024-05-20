@@ -166,9 +166,7 @@ export function TableRow({
             <LoggedClaimDetails
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                item={data.item}
-                onAccept={handleAccept}
-                onReject={handleReject}
+                data={data}
             />
         </tr>
     );

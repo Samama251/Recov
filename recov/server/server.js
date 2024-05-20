@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import lostRequestRouter from "./routes/lostRequestRoutes.js";
 import errorHandler from "./middleware/errorhandling.js";
 import claimRouter from "./routes/claimRoutes.js";
+import notifcationRouter from "./routes/notificationRoutes.js";
 dotenv.config({ path: "./config.env" });
 app.use(cookieParser());
 app.use(express.json());
@@ -28,6 +29,7 @@ mongoose
 app.use("/api/v1/", userRouter);
 app.use("/api/v1/items", lostRequestRouter);
 app.use("/api/v1/claim", claimRouter);
+app.use("/api/v1/notifications", notifcationRouter);
 app.use(errorHandler);
 app.get("/", (req, res) => {
     res.json({
