@@ -1,7 +1,7 @@
 import { Header } from "../../components/Header.tsx";
 import { AccountDetails } from "./components/AccountDetails.tsx";
 import { SubmissionsList } from "./components/SubmissionList.tsx";
-import { Loader } from "../../../public/Loader/Loader.tsx";
+//import { Loader } from "../../../public/Loader/Loader.tsx";
 import { useState, useEffect } from "react";
 import { useUserContext } from "../../context/userContext.tsx";
 
