@@ -88,7 +88,7 @@ export const ViewDetailsModal: React.FC<ViewDetailsModalProps> = ({
                                     Reported Date: {new Date(item.date).toLocaleDateString()}
                                 </p>
                                 <p className="text-xl text-gray-500 pl-1 mb-2">
-                                    Reported By: {item.user}
+                                    Reported By: {item.email}
                                 </p>
                                 <p className="text-xl text-gray-500 pl-1 mb-2">
                                     Category: {item.category}

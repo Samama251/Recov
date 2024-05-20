@@ -4,17 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import WelcomeLayout from "./pages/WelcomeLayout/WelcomeLayout";
 import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
-
 import FoundReport from "./pages/FoundReport/FoundReport";
 import LostReport from "./pages/LostReport/LostReport";
 import Logs from "./pages/Logs/Logs";
 import MyAccount from "./pages/MyAccount/MyAccount";
-// import ItemDetail from "./pages/ItemDetail/ItemDetail";
 import Protect from "./Protect";
 import HomePage from "./HomePage";
 import ClaimLogs from "./pages/AdminClaimLogs/ClaimLogs";
 import AdminReportLogs from "./pages/AdminReportLogs/AdminReportLogs.tsx";
 import UserLogs from "./pages/AdminUserLogs/UserLogs.tsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"; // import the NotFoundPage component
 
 function AnimatedRoutes() {
     const location = useLocation();
@@ -41,6 +40,7 @@ function AnimatedRoutes() {
                     <Route path="/home/claim-logs/*" element={<ClaimLogs />}/>
                     <Route path="/home/report-logs/*" element={<AdminReportLogs />}/>
                     <Route path="/home/user-logs/*" element={<UserLogs />}/>
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </motion.div>
         </AnimatePresence>

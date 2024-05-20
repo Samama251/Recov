@@ -20,7 +20,7 @@ export const SubmissionItem: React.FC<SubmissionItemProps> = ({
         <div className="grid gap-1">
             <div className="font-medium text-xl">{title}</div>
             <div className="text-md text-gray-500 dark:text-gray-400">
-                Reported on {date}
+                Reported on {new Date(date).toLocaleDateString()}
             </div>
         </div>
         <div className="flex items-center gap-2">

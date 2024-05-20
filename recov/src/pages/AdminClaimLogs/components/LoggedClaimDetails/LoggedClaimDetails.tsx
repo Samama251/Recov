@@ -21,7 +21,28 @@ interface ViewDetailsModalProps {
     item: ItemProps;
 }
 
+
 export const LoggedClaimDetails: React.FC<ViewDetailsModalProps> = ({ isOpen, onClose, item }) => {
+    const onDelete = (data) => {
+        const deleteData = async () => {
+            try {
+                console.log("On delete Function was called");
+                const claimId = data._id;
+                console.log("Claim ID", claimId);
+                const response = await fetch(
+                    `http://localhost:3000/api/v1/claim/deleteClaim?claimId=${claimId}`,
+                    {
+                        method: "DELETE",
+                    }
+                );
+                const responseData = await response.json();
+                console.log(responseData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+            deleteData();
+        };
+    }
     const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
     const modalClass = isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none';
     const defaultImage = "/public/placeholderImg.svg"; // replace with your default image path

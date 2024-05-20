@@ -32,6 +32,7 @@ export function LogsHeader({ title, placeholder, baseRoute }) {
                         placeholder={placeholder}
                         type="text"
                     />
+
                 </div>
                 <SortBy/>
             </div>

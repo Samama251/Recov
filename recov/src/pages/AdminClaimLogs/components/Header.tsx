@@ -22,7 +22,7 @@ export function Header() {
                     <SearchIcon className="absolute left-3 pr-6 top-1/2 -translate-y-1/2 w-14 h-14 text-gray-500" />
                     <Input
                         className="w-full pr-32 py-8 text-lg rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white sm:w-auto"
-                        placeholder="           Search logs..."
+                        placeholder="Search logs..."
                         type="text"
                     />
                 </div>
