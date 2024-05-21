@@ -13,11 +13,11 @@ interface SubmissionsListProps {
 }
 
 export const SubmissionsList: React.FC<SubmissionsListProps> = ({
-                                                                  submissions,
-                                                                }) => (
-    <div className="divide-y rounded-lg border">
-      {submissions.map((submission) => (
-          <SubmissionItem {...submission} key={submission.id} />
-      ))}
-    </div>
+  submissions,
+}) => (
+  <div className="divide-y rounded-lg border">
+    {submissions.map((submission) => (
+      <SubmissionItem {...submission} key={submission.id} />
+    ))}
+  </div>
 );

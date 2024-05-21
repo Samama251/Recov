@@ -8,6 +8,7 @@ import {
   getItems,
   acceptlostRequest,
   rejectlostRequest,
+  deleteRequest,
 } from "./../controllers/lostItemRequest.js";
 const router = express.Router();
 router.get("/userItems", getUserItems);
@@ -17,4 +18,5 @@ router.get("/stats", getStats);
 router.get("/getItemsForAdmin", getItems);
 router.patch("/acceptRequest/", acceptlostRequest);
 router.patch("/rejectRequest/", rejectlostRequest);
+router.delete("/deleteRequest/", deleteRequest);
 export default router;

@@ -59,9 +59,9 @@ const getItem = asyncHandler(async (req, res) => {
 
   const startIndex = (page - 1) * pageSize;
   const paginatedItems = await item
-      .find({ adminApproval: true })
-      .skip(startIndex)
-      .limit(pageSize);
+    .find({ adminApproval: true })
+    .skip(startIndex)
+    .limit(pageSize);
   const totalItems = await item.countDocuments();
 
   const totalPages = Math.ceil(totalItems / pageSize);
@@ -132,6 +132,7 @@ const getUserItems = asyncHandler(async (req, res) => {
     let itemstoMap = [];
     for (let i = 0; i < userItems.length; i++) {
       let item = userItems[i];
+      console.log("Item", item._id);
       itemstoMap.push({
         id: item._id,
         title: item.itemName,
@@ -152,7 +153,7 @@ const getUserItems = asyncHandler(async (req, res) => {
 });
 const getItems = asyncHandler(async (req, res) => {
   console.log(
-      "Hello I am in the getItems function which will be used to get all the items for the admin to approve or reject"
+    "Hello I am in the getItems function which will be used to get all the items for the admin to approve or reject"
   );
   const page = parseInt(req.query.page);
   const pageSize = 10;
@@ -160,11 +161,11 @@ const getItems = asyncHandler(async (req, res) => {
   const startIndex = (page - 1) * pageSize;
 
   const items = await item
-      .find()
-      .sort({ createdAt: -1 })
-      .skip(startIndex)
-      .limit(pageSize)
-      .populate("user");
+    .find()
+    .sort({ createdAt: -1 })
+    .skip(startIndex)
+    .limit(pageSize)
+    .populate("user");
   const totalItems = await item.countDocuments();
 
   const totalPages = Math.ceil(totalItems / pageSize) + 1;
@@ -192,7 +193,7 @@ const acceptlostRequest = asyncHandler(async (req, res) => {
     itemToAccept.adminApproval = true;
     await itemToAccept.save();
     const notificationMessage = `Your request for ${
-        itemToAccept.itemName
+      itemToAccept.itemName
     } made on ${itemToAccept.createdAt.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -228,7 +229,7 @@ const rejectlostRequest = asyncHandler(async (req, res) => {
     await itemToAccept.save();
     console.log("Item status has been updated successfully");
     const notificationMessage = `Your request for ${
-        itemToAccept.itemName
+      itemToAccept.itemName
     } made on ${itemToAccept.createdAt.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -252,6 +253,24 @@ const rejectlostRequest = asyncHandler(async (req, res) => {
     next(error);
   }
 });
+const deleteRequest = asyncHandler(async (req, res) => {
+  try {
+    const id = req.query.submissionId;
+    console.log("I am in the delete request function", id);
+    const itemToDelete = await item.findByIdAndDelete(id);
+    if (!itemToDelete) {
+      console.log("I am in the delete request function near error", id);
+      throw new ApiError(404, "Item not found");
+    }
+    console.log("I am here");
+    res.status(200).json({
+      ok: true,
+      message: "Request deleted",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 export {
   lostRequest,
   getItem,
@@ -261,4 +280,5 @@ export {
   getItems,
   acceptlostRequest,
   rejectlostRequest,
+  deleteRequest,
 };
